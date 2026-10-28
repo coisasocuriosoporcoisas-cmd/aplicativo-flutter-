@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/features/chat/domain/entities/conversa.dart';
 import 'package:flutter_application_1/features/chat/infra/data/conversa_repository.dart';
 import 'package:flutter_application_1/features/chat/presentation/bloc/conversa_list_bloc.dart';
+import 'package:flutter_application_1/features/chat/presentation/bloc/conversa_list_event.dart';
 import 'package:flutter_application_1/features/chat/presentation/bloc/conversa_list_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,6 +25,9 @@ class ConversaListPage extends StatelessWidget {
         itemBuilder: (BuildContext context, int i) {
           Conversa conversa = repo.conversas[i];
           return ListTile(
+            onTap: (){
+              context.read<ConversaListBloc>().add(ConversaListDuplicateConversa(conversa: conversa));
+            },
             title: Text(conversa.contato),
             subtitle: Text(conversa.ultimaMsg),
             leading: CircleAvatar(
@@ -46,9 +50,23 @@ class ConversaListPage extends StatelessWidget {
 
           }
           if(state is ConversaListeFailure){
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Text(state.msg)
+                )
+              ],
+            );
 
           }
-          return CircularProgressIndicator();
+          return 
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator()
+            ],
+          );
           
         } )
     )

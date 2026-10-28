@@ -19,4 +19,6 @@ class ConversaRepository {
       naoLidas: 10,
     ),
   ];
+
+  void add(Conversa conversa)=>conversas.add(conversa);
 }
